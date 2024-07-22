@@ -1,0 +1,28 @@
+1068. Product Sales Analysis I
+
+Table: Sales
+
++-------------+-------+
+| Column Name | Type  |
++-------------+-------+
+| sale_id     | int   |
+| product_id  | int   |
+| year        | int   |
+| quantity    | int   |
+| price       | int   |
++-------------+-------+
+
+Table: Product
+
++--------------+---------+
+| Column Name  | Type    |
++--------------+---------+
+| product_id   | int     |
+| product_name | varchar |
++--------------+---------+
+
+--Solution
+
+select product_name,year,price from sales inner join product using (product_id) group by sale_id;
+
+ 
