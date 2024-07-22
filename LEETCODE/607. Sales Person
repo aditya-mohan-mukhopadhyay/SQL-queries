@@ -1,0 +1,52 @@
+607. Sales Person
+
+Table: SalesPerson
+
++-----------------+---------+
+| Column Name     | Type    |
++-----------------+---------+
+| sales_id        | int     |
+| name            | varchar |
+| salary          | int     |
+| commission_rate | int     |
+| hire_date       | date    |
++-----------------+---------+
+
+Table: Company
+
++-------------+---------+
+| Column Name | Type    |
++-------------+---------+
+| com_id      | int     |
+| name        | varchar |
+| city        | varchar |
++-------------+---------+
+
+
+Table: Orders
+
++-------------+------+
+| Column Name | Type |
++-------------+------+
+| order_id    | int  |
+| order_date  | date |
+| com_id      | int  |
+| sales_id    | int  |
+| amount      | int  |
++-------------+------+
+
+Write a solution to find the names of all the salespersons who did not have any orders related to the company with the name "RED".
+
+Return the result table in any order.
+
+--Solution
+
+select name
+from salesperson 
+where name not in 
+(select sp.name
+from salesperson sp
+join orders o on sp.sales_id=o.sales_id
+join company c on o.com_id=c.com_id
+where c.name='Red');
+
