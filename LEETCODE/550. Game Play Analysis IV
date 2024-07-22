@@ -1,0 +1,33 @@
+550. Game Play Analysis IV
+
+Table: Activity
+
++--------------+---------+
+| Column Name  | Type    |
++--------------+---------+
+| player_id    | int     |
+| device_id    | int     |
+| event_date   | date    |
+| games_played | int     |
++--------------+---------+
+
+Write a solution to report the fraction of players that logged in again on the day after the day they first logged in, 
+rounded to 2 decimal places. In other words, you need to count the number of players that logged in for at least two 
+consecutive days starting from their first login date, then divide that number by the total number of players.
+
+--Solution
+
+WITH CTE AS (
+SELECT
+player_id, min(event_date) as event_start_date
+from
+Activity
+group by player_id )
+
+SELECT
+round((count(distinct c.player_id) / (select count(distinct player_id) from activity)),2)as fraction
+FROM
+CTE c
+JOIN Activity a
+on c.player_id = a.player_id
+and datediff(c.event_start_date, a.event_date) = -1;
