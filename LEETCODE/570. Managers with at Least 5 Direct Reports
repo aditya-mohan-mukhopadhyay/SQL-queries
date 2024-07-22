@@ -1,0 +1,25 @@
+570. Managers with at Least 5 Direct Reports
+
+Table: Employee
+
++-------------+---------+
+| Column Name | Type    |
++-------------+---------+
+| id          | int     |
+| name        | varchar |
+| department  | varchar |
+| managerId   | int     |
++-------------+---------+
+Write a solution to find managers with at least five direct reports.
+Return the result table in any order.
+
+--Solution
+
+SELECT name
+FROM Employee
+WHERE id in (
+  SELECT managerId
+  FROM Employee
+  GROUP BY managerId
+  HAVING COUNT(managerId) >= 5
+);
