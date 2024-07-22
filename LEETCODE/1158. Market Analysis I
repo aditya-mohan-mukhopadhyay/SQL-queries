@@ -1,0 +1,41 @@
+1158. Market Analysis I
+
+Table: Users
++----------------+---------+
+| Column Name    | Type    |
++----------------+---------+
+| user_id        | int     |
+| join_date      | date    |
+| favorite_brand | varchar |
++----------------+---------+
+
+Table: Orders
++---------------+---------+
+| Column Name   | Type    |
++---------------+---------+
+| order_id      | int     |
+| order_date    | date    |
+| item_id       | int     |
+| buyer_id      | int     |
+| seller_id     | int     |
++---------------+---------+
+Table: Items
++---------------+---------+
+| Column Name   | Type    |
++---------------+---------+
+| item_id       | int     |
+| item_brand    | varchar |
++---------------+---------+
+Write a solution to find for each user, the join date and the number of orders they made as a buyer in 2019.
+
+Return the result table in any order.
+
+--Solution:
+
+SELECT 
+    user_id buyer_id, join_date,
+    SUM(CASE YEAR(order_date) WHEN 2019 THEN 1 ELSE 0 END) as orders_in_2019
+FROM users u
+LEFT JOIN Orders o ON u.user_id = o.buyer_id
+GROUP BY user_id
+ORDER BY buyer_id;
