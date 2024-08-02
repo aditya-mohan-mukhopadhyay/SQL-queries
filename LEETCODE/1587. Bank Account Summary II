@@ -1,0 +1,26 @@
+1587. Bank Account Summary II
+
+Table: Users
+
++--------------+---------+
+| Column Name  | Type    |
++--------------+---------+
+| account      | int     |
+| name         | varchar |
++--------------+---------+
+Table: Transactions
++---------------+---------+
+| Column Name   | Type    |
++---------------+---------+
+| trans_id      | int     |
+| account       | int     |
+| amount        | int     |
+| transacted_on | date    |
++---------------+---------+
+Write a solution to report the name and balance of users with a balance higher than 10000. The balance of an account is equal to the sum of the amounts of all transactions involving that account.
+Return the result table in any order.
+
+--Solution
+
+select name,sum(amount) as balance from users join transactions using (account) group by name having balance > 10000 ;
+
