@@ -1,0 +1,36 @@
+1280. Students and Examinations
+
+Table: Students
++---------------+---------+
+| Column Name   | Type    |
++---------------+---------+
+| student_id    | int     |
+| student_name  | varchar |
++---------------+---------+
+Table: Subjects
++--------------+---------+
+| Column Name  | Type    |
++--------------+---------+
+| subject_name | varchar |
++--------------+---------+
+Table: Examinations
++--------------+---------+
+| Column Name  | Type    |
++--------------+---------+
+| student_id   | int     |
+| subject_name | varchar |
++--------------+---------+
+Write a solution to find the number of times each student attended each exam.
+
+Return the result table ordered by student_id and subject_name.
+
+
+--Solution
+
+SELECT Students.student_id, Students.student_name, Subjects.subject_name, COUNT(Examinations.student_id) as attended_exams
+FROM Students  
+CROSS JOIN Subjects 
+LEFT JOIN Examinations ON Students.student_id = Examinations.student_id 
+ AND Subjects.subject_name = Examinations.subject_name
+GROUP BY Students.student_id, Students.student_name, Subjects.subject_name
+ORDER BY Students.student_id, Subjects.subject_name;
