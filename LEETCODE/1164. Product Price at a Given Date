@@ -1,0 +1,24 @@
+1164. Product Price at a Given Date
+
+Table: Products
++---------------+---------+
+| Column Name   | Type    |
++---------------+---------+
+| product_id    | int     |
+| new_price     | int     |
+| change_date   | date    |
++---------------+---------+
+Write a solution to find the prices of all products on 2019-08-16. Assume the price of all products before any change is 10.
+Return the result table in any order.
+
+--Solution
+
+with base_table as (
+    select *, rank() over(partition by product_id order by change_date desc) as ranking
+    from products
+    where change_date <= '2019-08-16'
+    )
+
+select A.product_id, ifnull(new_price, 10) as price
+from (select distinct product_id from products) A 
+left join (select * from base_table where ranking = 1) B on A.product_id = B.product_id;
