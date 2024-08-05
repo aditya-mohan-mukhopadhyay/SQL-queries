@@ -1,0 +1,17 @@
+PLACEMENTS
+
+You are given three tables: Students, Friends and Packages. Students contains two columns: ID and Name. 
+Friends contains two columns: ID and Friend_ID (ID of the ONLY best friend). 
+Packages contains two columns: ID and Salary (offered salary in $ thousands per month).
+
+Write a query to output the names of those students whose best friends got offered a higher salary than them. 
+Names must be ordered by the salary amount offered to the best friends. It is guaranteed that no two students got same salary offer.
+
+--Solution
+
+select s.Name from Students s
+join Friends f on s.ID=f.ID
+join Packages student_salary on s.ID=student_salary.ID
+join Packages friend_salary on f.Friend_Id=friend_salary.ID
+where friend_salary.Salary>student_salary.Salary
+order by friend_salary.Salary;
