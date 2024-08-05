@@ -2,13 +2,11 @@ Solutions to Easy and SQL(Basic) Problems
 
 REVISING THE SELECT QUERY 1
 Query all columns for all American cities in the CITY table with populations larger than 100000. The CountryCode for America is USA.
-
 -- Solution
 SELECT * FROM CITY WHERE POPULATION > 100000 AND COUNTRYCODE ='USA';
 
 REVISING THE SELECT QUERY 2
 Query the NAME field for all American cities in the CITY table with populations larger than 120000. The CountryCode for America is USA.
-
 --Solution
 SELECT NAME
 FROM CITY
@@ -16,14 +14,12 @@ WHERE COUNTRYCODE = "USA" AND POPULATION > 120000;
 
 SELECT ALL
 Query all columns (attributes) for every row in the CITY table.
-
 --Solution
 SELECT * FROM CITY;
 
 
 SELECT BY ID
 Query all columns for a city in CITY with the ID 1661.
-
 --Solution
 select * from CITY where ID=1661;
 
@@ -151,5 +147,90 @@ Query the average population of all cities in CITY where District is California.
 --Solution
 SELECT AVG(POPULATION) FROM CITY where DISTRICT = 'California';
 
+AVERAGE POPULATION
+Query the average population for all cities in CITY, rounded down to the nearest integer.
+--Solution
+select round(avg(POPULATION),0)from CITY;
 
+JAPAN POPULATION
+Query the sum of the populations for all Japanese cities in CITY. The COUNTRYCODE for Japan is JPN.
+--Solution
+SELECT SUM(POPULATION) FROM CITY WHERE COUNTRYCODE='JPN';
+
+POPULATION DENSITY DIFFERENCE
+Query the difference between the maximum and minimum populations in CITY.
+--Solution
+SELECT (MAX(POPULATION)-MIN(POPULATION)) from CITY;
+
+THE BLUNDER
+Samantha was tasked with calculating the average monthly salaries for all employees in the EMPLOYEES table, but did not realize her keyboard's  key was broken until after completing the calculation. She wants your help finding the difference between her miscalculation (using salaries with any zeros removed), and the actual average salary.
+Write a query calculating the amount of error (i.e.:  average monthly salaries), and round it up to the next integer.
+--Solution
+select ceil(avg(salary) - avg(replace(salary, '0', ''))) from employees;
+
+TOP EARNERS
+We define an employee's total earnings to be their monthly salary*months worked, and the maximum total earnings to be the maximum total earnings for any employee in the Employee table. Write a query to find the maximum total earnings for all employees as well as the total number of employees who have maximum total earnings. Then print these values as  space-separated integers.
+--Solution
+select months*salary, count(*) from employee
+group by months*salary
+order by months*salary desc
+limit 1;
+
+WEATHER OBSERVATION STATION 2
+Query the following two values from the STATION table:
+1.The sum of all values in LAT_N rounded to a scale of 2 decimal places.
+2. The sum of all values in LONG_W rounded to a scale of 2 decimal places.
+--Solution
+select cast(round(sum(lat_n),2) as numeric(7,2)),
+       cast(round(sum(long_w),2) as numeric(7,2))
+from station;
+
+WEATHER OBSERVATION STATION 13
+Query the sum of Northern Latitudes (LAT_N) from STATION having values greater than 38.7880 and less than 137.2345. Truncate your answer to  decimal places.
+--Solution
+select ROUND(SUM(LAT_N), 4) from STATION where LAT_N  BETWEEN 38.7880 AND 137.2345;
+
+WEATHER OBSERVATION STATION 14
+Query the greatest value of the Northern Latitudes (LAT_N) from STATION that is less than 137.2345 . Truncate your answer to  decimal places.
+--Solution
+select ROUND(MAX(LAT_N),4) from STATION WHERE LAT_N < 137.2345;
+
+WEATHER OBSERVATION STATION 15
+Query the Western Longitude (LONG_W) for the largest Northern Latitude (LAT_N) in STATION that is less than . Round your answer to  decimal places.
+--Solution
+select round(LONG_W,4) from STATION where LAT_N < 137.2345 order by LAT_N desc limit 1;
+
+WEATHER OBSERVATION STATION 16
+Query the smallest Northern Latitude (LAT_N) from STATION that is greater than 38.7780. Round your answer to  decimal places.
+--Solution
+SELECT ROUND(MIN(LAT_N),4)
+FROM STATION 
+WHERE LAT_N > 38.7780;
+
+WEATHER OBSERVATION STATION 17
+Query the Western Longitude (LONG_W)where the smallest Northern Latitude (LAT_N) in STATION is greater than 38.7780. Round your answer to 4 decimal places.
+--Solution
+SELECT ROUND(LONG_W, 4) FROM STATION WHERE LAT_N > 38.7780 ORDER BY LAT_N LIMIT 1;
+
+POPULATION CENSUS
+Given the CITY and COUNTRY tables, query the sum of the populations of all cities where the CONTINENT is 'Asia'.
+Note: CITY.CountryCode and COUNTRY.Code are matching key columns.
+--Solution
+SELECT SUM(City.population)
+FROM Country
+INNER JOIN City
+    ON Country.Code = City.CountryCode
+WHERE Country.Continent='Asia';
+
+AFRICAN CITIES
+Given the CITY and COUNTRY tables, query the names of all cities where the CONTINENT is 'Africa'.
+Note: CITY.CountryCode and COUNTRY.Code are matching key columns
+--Solution
+select CITY.Name  from CITY,COUNTRY  where CITY.COUNTRYCODE = COUNTRY.CODE AND CONTINENT = 'Africa';
+
+AVERAGE POPULATION OF EACH CONTINENT
+Given the CITY and COUNTRY tables, query the names of all the continents (COUNTRY.Continent) and their respective average city populations (CITY.Population) rounded down to the nearest integer.
+Note: CITY.CountryCode and COUNTRY.Code are matching key columns.
+--Solution
+select COUNTRY.CONTINENT,FLOOR(AVG(CITY.POPULATION)) from CITY join COUNTRY on CITY.CountryCode=COUNTRY.Code GROUP BY COUNTRY.CONTINENT;
 
