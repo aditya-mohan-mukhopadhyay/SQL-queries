@@ -1,0 +1,20 @@
+CHALLENGES
+
+Julia asked her students to create some coding challenges. Write a query to print the hacker_id, name, and the total number of challenges created by each student. 
+Sort your results by the total number of challenges in descending order. If more than one student created the same number of challenges, then sort the result by hacker_id. 
+If more than one student created the same number of challenges and the count is less than the maximum number of challenges created, then exclude those students from the result.
+
+The following tables contain challenge data:
+Hackers: The hacker_id is the id of the hacker, and name is the name of the hacker.
+Challenges: The challenge_id is the id of the challenge, and hacker_id is the id of the student who created the challenge.
+
+
+--Solution
+
+select s.Name from Students s
+join Friends f on s.ID=f.ID
+join Packages student_salary on s.ID=student_salary.ID
+join Packages friend_salary on f.Friend_Id=friend_salary.ID
+where friend_salary.Salary>student_salary.Salary
+order by friend_salary.Salary;
+
